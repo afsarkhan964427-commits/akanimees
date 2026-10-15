@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ak animees | Anime World</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#08070d;color:#fff;font-family:Arial,sans-serif}
+header{padding:20px 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #282033;gap:15px;flex-wrap:wrap}
+.logo{font-size:27px;font-weight:900;color:#a855f7}
+.logo span{color:white}
+input{padding:12px;border:1px solid #46315c;border-radius:9px;background:#17121f;color:white}
+.hero{padding:65px 7%;background:linear-gradient(90deg,#10091f,#35105d,#10091f)}
+.hero small{color:#d8a5ff}
+h1{font-size:clamp(35px,6vw,65px);margin:15px 0}
+.hero p{max-width:500px;color:#d2c9df;line-height:1.6}
+button{padding:12px 18px;background:#9333ea;color:white;border:0;border-radius:8px;font-weight:bold;cursor:pointer}
+main{padding:28px 5%}
+h2{font-size:22px}
+.genres{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 25px}
+.genres button{background:#21172e;border:1px solid #4c2c68}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:18px}
+.card{background:#15111d;border:1px solid #30223e;border-radius:12px;overflow:hidden}
+.card img{width:100%;height:220px;object-fit:cover;display:block}
+.info{padding:12px}
+.info h3{font-size:16px;margin:3px 0 9px}
+.info p{font-size:13px;color:#c3b4d2}
+.tag{font-size:11px;color:#d8a5ff}
+footer{text-align:center;padding:30px;color:#9d8daa;border-top:1px solid #282033;margin-top:30px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Ak <span>animees</span></div>
+  <input id="search" placeholder="Search anime..." oninput="filterAnime()">
+</header>
+
+<section class="hero">
+  <small>✦ YOUR ANIME DESTINATION</small>
+  <h1>ENTER THE<br>ANIME WORLD</h1>
+  <p>Discover anime, explore new worlds, and find your next favourite series.</p>
+  <button onclick="document.getElementById('anime').scrollIntoView({behavior:'smooth'})">EXPLORE ANIME ↓</button>
+</section>
+
+<main id="anime">
+  <h2>Browse by Genre</h2>
+  <div class="genres">
+    <button onclick="genreFilter('All')">All</button>
+    <button onclick="genreFilter('Action')">Action</button>
+    <button onclick="genreFilter('Fantasy')">Fantasy</button>
+    <button onclick="genreFilter('Romance')">Romance</button>
+    <button onclick="genreFilter('Comedy')">Comedy</button>
+  </div>
+
+  <h2>Popular Anime</h2>
+  <div class="grid" id="grid"></div>
+</main>
+
+<footer>© 2026 Ak animees • Made for anime fans</footer>
+
+<script>
+const anime = [
+ {name:"Solo Leveling",genre:"Action",rating:"8.7",year:"2024",img:"https://www.kinonews.ru/insimgs/2026/poster/poster139849_1.webp"},
+ {name:"Jujutsu Kaisen",genre:"Action",rating:"8.5",year:"2020",img:"https://cdn.myanimelist.net/images/anime/1171/109222l.jpg"},
+ {name:"Demon Slayer",genre:"Action",rating:"8.4",year:"2019",img:"https://cdn.myanimelist.net/images/anime/1286/99889l.jpg"},
+ {name:"One Piece",genre:"Fantasy",rating:"8.7",year:"1999",img:"https://cdn.myanimelist.net/images/anime/6/73245l.jpg"},
+ {name:"Frieren",genre:"Fantasy",rating:"9.3",year:"2023",img:"https://cdn.myanimelist.net/images/anime/1015/138006l.jpg"},
+ {name:"Your Name",genre:"Romance",rating:"8.8",year:"2016",img:"https://cdn.myanimelist.net/images/anime/5/87048l.jpg"},
+ {name:"Kaguya-sama",genre:"Comedy",rating:"8.5",year:"2019",img:"https://cdn.myanimelist.net/images/anime/1295/106551l.jpg"},
+ {name:"Black Clover",genre:"Fantasy",rating:"8.2",year:"2017",img:"https://cdn.myanimelist.net/images/anime/2/88336l.jpg"}
+];
+let selectedGenre="All";
+function render(){
+ const term=document.getElementById("search").value.toLowerCase();
+ const results=anime.filter(a=>(a.name.toLowerCase().includes(term))&&(selectedGenre==="All"||a.genre===selectedGenre));
+ document.getElementById("grid").innerHTML = results.map(a=>`
+ <a class="card" href="anime-details.html?anime=${a.name.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"")}" style="text-decoration:none;color:inherit;display:block">
+ <img src="${a.img}" alt="${a.name} poster" loading="lazy">
+ <div class="info"><h3>${a.name}</h3><p>⭐ ${a.rating} · ${a.year}</p><span class="tag">${a.genre}</span></div>
+ </a>`).join("")||"<p>No anime found.</p>";;
+}
+function showDetails(name) {
+  const a = anime.find(item => item.name === name);
+  if (!a) return;
+
+  alert(
+    "🎬 " + a.name +
+    "\nGenre: " + a.genre +
+    "\nRating: " + a.rating +
+    "\nRelease Year: " + a.year
+  );
+}
+function filterAnime(){
+  render();
+}
+function genreFilter(g){selectedGenre=g;render()}
+render();
+</script>
+</body>
+</html>
